@@ -1,0 +1,13 @@
+{
+    "server": {
+      "port" : 7000,
+      "serverPort": 7005
+    },
+    "mysql": {
+        "host": "localhost",
+        "username": "root",
+        "password": "password",
+        "db": "nekoapp",
+        "port": 3306
+    }
+  }
