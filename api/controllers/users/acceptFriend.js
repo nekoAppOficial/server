@@ -22,13 +22,13 @@ module.exports = (conn, socket, token, userID)  => {
                             const userPara = result[0];
                             if(result.length > 0){
                                 //Validation if not exist pending friend
-                                query = `SELECT * FROM friends WHERE (userID = ${user.id} AND friendID = ${userPara.id}) 
-                                                                OR (userID = ${userPara.id} AND friendID = ${user.id})`;
+                                query = `SELECT * FROM friends WHERE (userID = ${user.id} AND friendId = ${userPara.id}) 
+                                                                OR (userID = ${userPara.id} AND friendId = ${user.id})`;
                                 conn.query(query, (err, result) => {
                                     if(!err){
                                         if(result.length > 0){
                                             //Accept friend
-                                            query = `UPDATE friends SET status = 'accept' WHERE (userID = ${user.id} AND friendID = ${userPara.id})
+                                            query = `UPDATE friends SET statusAmizade = 'accept' WHERE (userID = ${user.id} AND friendID = ${userPara.id})
                                             OR (userID = ${userPara.id} AND friendID = ${user.id})`;
                                             conn.query(query, (err, result) => {
                                                 socket.broadcast.to(user.keyEncrypt).emit('refreshFriends', true);

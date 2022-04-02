@@ -9,6 +9,7 @@ module.exports = (conn, socket, token) => {
         } else {
             if (result.length > 0) {
                 const user = result[0];
+                var friendsListen = []
                 user.token = undefined
                 user.password = undefined;
                 conn.query(query, (err, result) => {
@@ -21,40 +22,23 @@ module.exports = (conn, socket, token) => {
                         console.log(`room created `, user.username)
                         //Send to all users
                         socket.broadcast.to(user.keyEncrypt).emit('userConnect', user);
-                        //Get minhas solitacoes de amizade
-                        query = `SELECT * FROM friends WHERE userID = ${user.id} OR friendId = ${user.id}`;
+                        //Query friends ship and get users information 
+                        query = `SELECT * FROM friends inner join users on friends.userId = users.id or friends.friendId = users.id WHERE friends.userId = ${user.id} and users.username != '${user.username}' OR friends.friendId = ${user.id}
+                        and users.username != '${user.username}'`;
                         conn.query(query, (err, resultE) => {
                             if(!err){
-                                if(resultE.length == 0){
-                                    socket.emit(`getFriends`, [])
-                                }
-                                //GET USER INFORMATION FROM FRIENDS RESULT
-                                resultE.forEach(friend => {
-                                    //Query
-                                    let id = friend.userId == user.id ? friend.friendId : friend.userId;
-                                    query = `SELECT * FROM users WHERE id = ${id}`;
-                                    conn.query(query, (err, resultsUser) => {
-                                        if(!err){
-                                            let friends = [];
-                                            resultsUser.forEach(userB => {
-                                                userB.token = undefined
-                                                userB.password = undefined
-                                                userB.keyEncrypt = undefined
-                                                userB.socketid = undefined
-                                                userB.email = undefined
-                                                userB.statusAmizade = friend.status
-                                                userB.createdBy = friend.createdBy
-                                                friends.push(userB)
-                                            })
-                                            socket.emit(`getFriends`, friends)
-                                        }
-                                        if(resultsUser.length == 0){
-                                            socket.emit(`getFriends`, [])
-                                        }
-                                    })
+                                resultE.forEach((userB, index) => {
+                                    console.log(userB)
+                                    resultE[index].token = undefined
+                                    resultE[index].password = undefined
+                                    resultE[index].socketid = undefined
+                                    resultE[index].email = undefined
+                                    resultE[index].keyEncrypt = undefined
                                 })
+                                socket.emit(`getFriends`, resultE)
+                            } else{
+                                console.log(err)
                             }
-                            
                         })
                     });
                 });

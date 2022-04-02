@@ -45,10 +45,10 @@ module.exports = createTable => (conn) => {
         userId int,
         createdBy int,
         friendId int,
-        status VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        token VARCHAR(255),
-        keyEncrypt VARCHAR(255)
+        statusAmizade VARCHAR(255),
+        created_at_f TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        token_f VARCHAR(255),
+        keyEncrypt_f VARCHAR(255)
         )`, (err, results) => {
         if(err){
         }
