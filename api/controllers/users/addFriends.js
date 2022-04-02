@@ -28,7 +28,7 @@ module.exports = (conn, socket, token, userID)  => {
                                     if(!err){
                                         if(result.length == 0){
                                             if(user.id != userPara.id){
-                                                query = `INSERT INTO friends (friendId, userId, status, createdBy)
+                                                query = `INSERT INTO friends (friendId, userId, statusAmizade, createdBy)
                                                  VALUES (${userPara.id}, ${user.id}, "pending", ${user.id})`;
                                                 conn.query(query, (err, result) => {
                                                     //Send to user
