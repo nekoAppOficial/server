@@ -32,19 +32,19 @@ module.exports = auth => (conn, req, res) => {
                         });
                     } else {
                         res.status(200).send({
-                            error: 'Usuario ou senha incorretos'
+                            message: 'Usuario ou senha incorretos'
                         });
                     }
                 } else {
                     res.status(200).send({
-                        error: 'Usuario ou senha incorretos'
+                        message: 'Usuario ou senha incorretos'
                     });
                 }
             }
         });
     } else{
         res.status(200).send({
-            error: 'Please provide username and password'
+            message: 'Por favor informe o usuario e senha'
         });
     }
 }

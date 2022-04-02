@@ -10,6 +10,7 @@ const cors = require("cors");
 const online = require('./api/controllers/users/online');
 const offline = require('./api/controllers/users/offline');
 const socketID = require('./api/controllers/users/socketID');
+const addFriend = require('./api/controllers/users/addFriends');
 
 const io = require("socket.io")(server, {
   cors: {
@@ -33,8 +34,13 @@ io.on('connection', (socket) => {
       online(conn, socket, token)
     }
   })
+
+  socket.on(`addFriend`, ({token, userID}) => {
+    addFriend(conn, socket, token, userID)
+  })
+
   socket.on(`disconnect`, () => {
-    offline(conn, socket.id)
+    offline(conn, socket)
   })
 });
 
