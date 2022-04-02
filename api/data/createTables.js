@@ -43,6 +43,7 @@ module.exports = createTable => (conn) => {
         (
         id INT AUTO_INCREMENT PRIMARY KEY,
         userId int,
+        createdBy int,
         friendId int,
         status VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -56,6 +57,7 @@ module.exports = createTable => (conn) => {
     conn.query(`CREATE TABLE IF NOT EXISTS messagesPrivate
         (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        createdBy int,
         userId int,
         friendId int,
         message LONGTEXT,
@@ -69,10 +71,11 @@ module.exports = createTable => (conn) => {
         }
     });
     //Create table messagesServer
-    conn.query(`CREATE TABLE IF NOT EXISTS messagesPrivate
+    conn.query(`CREATE TABLE IF NOT EXISTS messagesServer
         (
         id INT AUTO_INCREMENT PRIMARY KEY,
         userId int,
+        createdBy int,
         serverId int,
         message LONGTEXT,
         photo LONGTEXT,

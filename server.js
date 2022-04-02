@@ -11,6 +11,11 @@ const online = require('./api/controllers/users/online');
 const offline = require('./api/controllers/users/offline');
 const socketID = require('./api/controllers/users/socketID');
 const addFriend = require('./api/controllers/users/addFriends');
+const friends = require('./api/controllers/users/friends');
+const acceptFriend = require('./api/controllers/users/acceptFriend');
+const recuseFriend = require('./api/controllers/users/recuseFriend');
+const profile = require('./api/controllers/users/profileSocket');
+const sendMessagePrivate = require('./api/controllers/users/sendMessagePrivate');
 
 const io = require("socket.io")(server, {
   cors: {
@@ -35,8 +40,33 @@ io.on('connection', (socket) => {
     }
   })
 
+  socket.on(`acceptFriend`, ({token, userID}) => {
+    acceptFriend(conn, socket, token, userID)
+    socket.emit('refreshFriends', true);
+  })
+
+  socket.on(`sendMessagePrivate`, ({token, userID, message}) => {
+    console.log(message)
+    sendMessagePrivate(conn, socket, token, userID, message)
+  })
+
+  socket.on(`getUser`, ({token, userID}) => {
+    profile(conn, socket, token, userID)
+  })
+
+  socket.on(`recuseFriend`, ({token, userID}) => {
+    recuseFriend(conn, socket, token, userID)
+    socket.emit('refreshFriends', true);
+  })
+
   socket.on(`addFriend`, ({token, userID}) => {
     addFriend(conn, socket, token, userID)
+  })
+
+  socket.on(`getFriends`, token => {
+    if(token){
+      friends(conn, socket, token)
+    } 
   })
 
   socket.on(`disconnect`, () => {

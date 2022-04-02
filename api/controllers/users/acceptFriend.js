@@ -16,7 +16,7 @@ module.exports = (conn, socket, token, userID)  => {
                     user.password = undefined;
                     //Add friend 
                     //Valida se o usuario userID username existe
-                    query = `SELECT * FROM users WHERE username = '${userID}'`;
+                    query = `SELECT * FROM users WHERE id = '${userID}'`;
                     conn.query(query, (err, result) => {
                         if(!err){
                             const userPara = result[0];
@@ -26,27 +26,14 @@ module.exports = (conn, socket, token, userID)  => {
                                                                 OR (userID = ${userPara.id} AND friendID = ${user.id})`;
                                 conn.query(query, (err, result) => {
                                     if(!err){
-                                        if(result.length == 0){
-                                            if(user.id != userPara.id){
-                                                query = `INSERT INTO friends (friendId, userId, status, createdBy)
-                                                 VALUES (${userPara.id}, ${user.id}, "pending", ${user.id})`;
-                                                conn.query(query, (err, result) => {
-                                                    //Send to user
-                                                    socket.broadcast.to(user.keyEncrypt).emit('refreshFriends', true);
-                                                    socket.broadcast.to(userPara.keyEncrypt).emit('refreshFriends', true);
-                                                    socket.emit('refreshFriends', true);
-                                                    socket.emit(`notifications`, {
-                                                        sucess: true,
-                                                        message: `Pedido de amizade para ${userPara.username}  enviado com sucesso!`,
-                                                        page: `addFriend`
-                                                    })
-                                                })
-                                            }
-                                        } else{
-                                            socket.emit(`notifications`, {
-                                                sucess: false,
-                                                message: `Usuário já é seu amigo ou você já enviou um pedido de amizade para este usuário!`,
-                                                page: `addFriend`
+                                        if(result.length > 0){
+                                            //Accept friend
+                                            query = `UPDATE friends SET status = 'accept' WHERE (userID = ${user.id} AND friendID = ${userPara.id})
+                                            OR (userID = ${userPara.id} AND friendID = ${user.id})`;
+                                            conn.query(query, (err, result) => {
+                                                socket.broadcast.to(user.keyEncrypt).emit('refreshFriends', true);
+                                                socket.broadcast.to(userPara.keyEncrypt).emit('refreshFriends', true);
+                                                socket.emit('refreshFriends', true);
                                             })
                                         }
                                     }
