@@ -4,10 +4,10 @@
       "serverPort": 7005
     },
     "mysql": {
-        "host": "localhost",
-        "username": "root",
-        "password": "password",
-        "db": "nekoapp",
+        "host": "us-cdbr-east-05.cleardb.net",
+        "username": "ba686a976ec1f9",
+        "password": "60efdb8d",
+        "db": "heroku_48caf29463695f9",
         "port": 3306
     }
   }
