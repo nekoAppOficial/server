@@ -6,7 +6,7 @@ module.exports = (conn, socket, token, userID)  => {
             if (err) {
                 socket.emit(`notifications`, {
                     sucess: false,
-                    message: `Usuário não encontrado`,
+                    message: `Hum, não funcionou. Verifique a caixa alta, ortografia, espaços e números pra ver se está tudo certo mesmo.`,
                     page: `addFriend`
                 })
             } else {
@@ -55,7 +55,7 @@ module.exports = (conn, socket, token, userID)  => {
                             } else{
                                 socket.emit(`notifications`, {
                                     sucess: false,
-                                    message: `Usuário não encontrado`,
+                                    message: `Hum, não funcionou. Verifique a caixa alta, ortografia, espaços e números pra ver se está tudo certo mesmo.`,
                                     page: `addFriend`
                                 })
                             }
@@ -65,7 +65,7 @@ module.exports = (conn, socket, token, userID)  => {
                 } else {
                     socket.emit(`notifications`, {
                         sucess: false,
-                        message: `Usuário não encontrado`,
+                        message: `Hum, não funcionou. Verifique a caixa alta, ortografia, espaços e números pra ver se está tudo certo mesmo.`,
                         page: `addFriend`
                     })
                 }
@@ -74,7 +74,7 @@ module.exports = (conn, socket, token, userID)  => {
     } else{
         socket.emit(`notifications`, {
             sucess: false,
-            message: `Usuário não encontrado`,
+            message: `Hum, não funcionou. Verifique a caixa alta, ortografia, espaços e números pra ver se está tudo certo mesmo.`,
             page: `addFriend`
         })
     }
