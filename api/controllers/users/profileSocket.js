@@ -5,10 +5,7 @@ module.exports =  (conn, socket, token, userID) => {
         if(!err){
             if(result.length > 0){
                 const userEu = result[0]
-                query = `SELECT * FROM friends inner join users on friends.userId = users.id or friends.friendId = users.id WHERE friends.userId = ${userID} 
-                    and friends.friendId = ${userEu.id}
-                    and users.username != '${user.username}' OR friends.friendId = ${userID} and friends.usersId = ${userEu.id}
-                    and users.username != '${user.username}'`;
+                query = `SELECT * FROM users WHERE id = ${userID}`;
                 conn.query(query, (err, result) => {
                     if (err) {
                         console.log(err )
@@ -29,6 +26,8 @@ module.exports =  (conn, socket, token, userID) => {
                                     })
                                 }
                             })
+            
+                            
                         } else {
                             
                         }
