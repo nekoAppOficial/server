@@ -1,12 +1,14 @@
 module.exports =  (conn, socket, token, userID) => {
     //Validar o usuário pelo token mysql
-    console.log(userID)
     let query = `SELECT * FROM users WHERE token = '${token}'`;
     conn.query(query, (err, result) => {
         if(!err){
             if(result.length > 0){
                 const userEu = result[0]
-                query = `SELECT * FROM users WHERE id = ${userID}`;
+                query = `SELECT * FROM friends inner join users on friends.userId = users.id or friends.friendId = users.id WHERE friends.userId = ${userID} 
+                    and friends.friendId = ${userEu.id}
+                    and users.username != '${user.username}' OR friends.friendId = ${userID} and friends.usersId = ${userEu.id}
+                    and users.username != '${user.username}'`;
                 conn.query(query, (err, result) => {
                     if (err) {
                         console.log(err )
@@ -27,8 +29,6 @@ module.exports =  (conn, socket, token, userID) => {
                                     })
                                 }
                             })
-            
-                            
                         } else {
                             
                         }
