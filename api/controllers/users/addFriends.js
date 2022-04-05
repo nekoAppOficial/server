@@ -14,6 +14,13 @@ module.exports = (conn, socket, token, userID)  => {
                     const user = result[0];
                     user.token = undefined
                     user.password = undefined;
+                    if(user.id == userID){
+                        socket.emit(`notifications`, {
+                            sucess: false,
+                            message: `Hum, acho que você não pode se adicionar, espertinho...`,
+                            page: `addFriend`
+                        })
+                    }
                     //Add friend 
                     //Valida se o usuario userID username existe
                     query = `SELECT * FROM users WHERE username = '${userID}'`;
