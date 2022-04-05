@@ -16,6 +16,7 @@ const acceptFriend = require('./api/controllers/users/acceptFriend');
 const recuseFriend = require('./api/controllers/users/recuseFriend');
 const profile = require('./api/controllers/users/profileSocket');
 const sendMessagePrivate = require('./api/controllers/users/sendMessagePrivate');
+const changePhotoSocket = require(`./api/controllers/users/config/changePhotoSocket`)
 
 const io = require("socket.io")(server, {
   cors: {
@@ -48,6 +49,12 @@ io.on('connection', (socket) => {
   socket.on(`sendMessagePrivate`, ({token, userID, message}) => {
     console.log(message)
     sendMessagePrivate(conn, socket, token, userID, message)
+  })
+
+  socket.on(`change-avatar`, ({token, avatar}) => {
+    if(token && avatar){
+      changePhotoSocket(conn, socket, avatar, token)
+    }
   })
 
   socket.on(`getUser`, ({token, userID}) => {
