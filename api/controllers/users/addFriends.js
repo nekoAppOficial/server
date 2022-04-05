@@ -14,7 +14,7 @@ module.exports = (conn, socket, token, userID)  => {
                     const user = result[0];
                     user.token = undefined
                     user.password = undefined;
-                    if(user.id === userID){
+                    if(user.id == userID){
                         socket.emit(`notifications`, {
                             sucess: false,
                             message: `Hum, acho que você não pode se adicionar, espertinho...`,
