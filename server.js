@@ -24,7 +24,6 @@ const io = require("socket.io")(server, {
   }
 });
 
-
 require('dotenv').config();
 app.use(express());
 app.use(cors());
