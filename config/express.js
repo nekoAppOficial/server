@@ -1,6 +1,5 @@
 module.exports = () => {
   const express    = require('express');
-  const bodyParser = require('body-parser');
   const config     = require('config');
   let database   = {username: ``, password: ``, db: ``};
   const cors = require('cors')
