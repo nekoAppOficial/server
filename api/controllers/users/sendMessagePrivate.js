@@ -23,32 +23,54 @@ module.exports = (conn, socket, token, userID, message)  => {
                             userPara.password = undefined
                             userPara.token = undefined
                             if(userPara){
-                                //Send message private insert
-                                query = `INSERT INTO messagesPrivate 
-                                (userId, friendId, message, createdBy) VALUES (${user.id}, ${userID}, '${message}', ${user.id})`;
-                                //Send to user
+                                //Verifica se sou amigo dessa pessoa
+                                query = `SELECT * FROM friends WHERE (userId = ${user.id} AND friendId = ${userPara.id}) OR (userId = ${userPara.id} AND friendId = ${user.id})`;
                                 conn.query(query, (err, result) => {
                                     if(!err){
-                                        socket.broadcast.to(user.keyEncrypt).emit('message', {
-                                            message: message,
-                                            userPara: userPara,
-                                            userDe: user,
-                                            createdBy: user.id
-                                        });
-                                        socket.broadcast.to(userPara.keyEncrypt).emit('message', {
-                                            message: message,
-                                            userPara: userPara,
-                                            userDe: user,
-                                            createdBy: user.id
-                                        });
-                                        socket.emit('message', {
-                                            message: message,
-                                            userPara: userPara,
-                                            userDe: user,
-                                            createdBy: user.id
-                                        });
+                                        if(result.length == 0){
+                                            socket.emit('message', {
+                                                message: ``,
+                                                userPara: userPara,
+                                                userDe: user,
+                                                createdBy: user.id,
+                                                createdAt: new Date(),
+                                                notFriends: true,
+                                                error: true
+                                            });
+                                        } else{
+                                             //Send message private insert
+                                            query = `INSERT INTO messagesPrivate 
+                                            (userId, friendId, message, createdBy) VALUES (${user.id}, ${userID}, '${message}', ${user.id})`;
+                                            //Send to user
+                                            conn.query(query, (err, result) => {
+                                                if(!err){
+                                                    socket.broadcast.to(user.keyEncrypt).emit('message', {
+                                                        message: message,
+                                                        userPara: userPara,
+                                                        userDe: user,
+                                                        createdBy: user.id,
+                                                        createdAt: new Date()
+                                                    });
+                                                    socket.broadcast.to(userPara.keyEncrypt).emit('message', {
+                                                        message: message,
+                                                        userPara: userPara,
+                                                        userDe: user,
+                                                        createdBy: user.id,
+                                                        createdAt: new Date()
+                                                    });
+                                                    socket.emit('message', {
+                                                        message: message,
+                                                        userPara: userPara,
+                                                        userDe: user,
+                                                        createdBy: user.id,
+                                                        createdAt: new Date()
+                                                    });
+                                                }
+                                            })
+                                        }
                                     }
                                 })
+                               
                                 
                             }
                         }
