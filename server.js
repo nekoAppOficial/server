@@ -45,9 +45,10 @@ io.on('connection', (socket) => {
     socket.emit('refreshFriends', true);
   })
 
-  socket.on(`sendMessagePrivate`, ({token, userID, message}) => {
-    console.log(message)
-    sendMessagePrivate(conn, socket, token, userID, message)
+  socket.on(`sendMessagePrivate`, ({token, userID, message, image}) => {
+    if(token, userID, message){
+      sendMessagePrivate(conn, socket, token, userID, message, image)
+    }
   })
 
   socket.on(`change-avatar`, ({token, avatar}) => {

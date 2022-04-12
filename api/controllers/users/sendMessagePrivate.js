@@ -1,4 +1,4 @@
-module.exports = (conn, socket, token, userID, message)  => {
+module.exports = (conn, socket, token, userID, message, photo)  => {
     if(token && userID && message){
         //Validar o usuário pelo token mysql
         let query = `SELECT * FROM users WHERE token = '${token}'`;
@@ -40,7 +40,7 @@ module.exports = (conn, socket, token, userID, message)  => {
                                         } else{
                                              //Send message private insert
                                             query = `INSERT INTO messagesPrivate 
-                                            (userId, friendId, message, createdBy) VALUES (${user.id}, ${userID}, '${message}', ${user.id})`;
+                                            (userId, friendId, message, createdBy, photo) VALUES (${user.id}, ${userID}, '${message}', ${user.id}, '${photo}')`;
                                             //Send to user
                                             conn.query(query, (err, result) => {
                                                 if(!err){
@@ -49,21 +49,24 @@ module.exports = (conn, socket, token, userID, message)  => {
                                                         userPara: userPara,
                                                         userDe: user,
                                                         createdBy: user.id,
-                                                        createdAt: new Date()
+                                                        createdAt: new Date(),
+                                                        photo: photo
                                                     });
                                                     socket.broadcast.to(userPara.keyEncrypt).emit('message', {
                                                         message: message,
                                                         userPara: userPara,
                                                         userDe: user,
                                                         createdBy: user.id,
-                                                        createdAt: new Date()
+                                                        createdAt: new Date(),
+                                                        photo: photo
                                                     });
                                                     socket.emit('message', {
                                                         message: message,
                                                         userPara: userPara,
                                                         userDe: user,
                                                         createdBy: user.id,
-                                                        createdAt: new Date()
+                                                        createdAt: new Date(),
+                                                        photo: photo
                                                     });
                                                 }
                                             })
