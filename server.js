@@ -46,8 +46,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on(`sendMessagePrivate`, ({token, userID, message, image}) => {
-    console.log(message)
-    sendMessagePrivate(conn, socket, token, userID, message, image)
+    if(token, userID, message){
+      sendMessagePrivate(conn, socket, token, userID, message, image)
+    }
   })
 
   socket.on(`change-avatar`, ({token, avatar}) => {
