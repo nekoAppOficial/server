@@ -17,7 +17,7 @@ module.exports = auth => (conn, req, res) => {
 
         conn.query(query, (err, result) => {
             if (err) {
-                res.status(500).send(err);
+                res.status(401).send(err);
             } else {
                 if(result.length == 0){
                     const token = jwt.sign({
@@ -35,11 +35,11 @@ module.exports = auth => (conn, req, res) => {
                                 token
                             });
                         } else{
-                            res.status(400).send(err);
+                            res.status(401).send(err);
                         }
                     })
                 } else{
-                    res.status(400).send({
+                    res.status(401).send({
                         message: 'Este nome de usuário já existe',
                         sucess: false
                     });
@@ -47,7 +47,7 @@ module.exports = auth => (conn, req, res) => {
             }
         });
     } else{
-        res.status(400).send({
+        res.status(401).send({
             message: 'Por favor, preencha todos os campos',
             sucess: false
         });

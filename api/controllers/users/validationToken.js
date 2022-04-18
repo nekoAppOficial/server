@@ -19,7 +19,7 @@ module.exports = validationToken => (conn, req, res) => {
                     });
                 });
             } else {
-                res.status(400).send({
+                res.status(401).send({
                     error: 'Invalid TOKEN',
                     user: null
                 });
