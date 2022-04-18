@@ -1,13 +1,12 @@
 {
-  "server": {
-    "port" : 7000,
-    "serverPort": 7005
-  },
-  "mysql": {
-      "host": "us-cdbr-east-05.cleardb.net",
-      "username": "b0fca51f1b7665",
-      "password": "bc2fdb60",
-      "db": "heroku_b9610bb1f885fdd",
-      "port": 3306
+    "server": {
+      "port" : 8000
+    },
+    "mysql": {
+        "host": "us-cdbr-east-05.cleardb.net",
+        "username": "b248f987a537c7",
+        "password": "f964258a",
+        "db": "heroku_adc770c0fffda0e",
+        "port": 3306
+    }
   }
-}
