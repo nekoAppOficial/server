@@ -4,7 +4,7 @@ module.exports = auth => (conn, req, res) => {
         password,
         email
     } = req.body;
-    if(password && username && email){
+    if(password && username){
         const jwt = require('jsonwebtoken');
         const encryptPassword = require('encrypt-password')
         const encryptedPassword = encryptPassword(password+`_kaway123`, 'mysignaturekaway')
@@ -13,7 +13,7 @@ module.exports = auth => (conn, req, res) => {
         const keyEncrypt = jwt.sign({
             id: encryptedPassword + `_kaway`+ username
         }, `kaway404`);
-        let query = `SELECT * FROM users WHERE username = '${username}' OR email = '${email}'`;
+        let query = `SELECT * FROM users WHERE username = '${username}''`;
 
         conn.query(query, (err, result) => {
             if (err) {
@@ -25,9 +25,8 @@ module.exports = auth => (conn, req, res) => {
                     }, `kaway404`);
                     query = `INSERT INTO users (
                         username, password,
-                        verified, keyEncrypt,
-                        email, token
-                        ) VALUES ('${username}','${encryptedPassword}', 0, '${keyEncrypt}', '${email}', '${token}')`;
+                        verified, keyEncrypt, token
+                        ) VALUES ('${username}','${encryptedPassword}', 0, '${keyEncrypt}', '${token}')`;
                     conn.query(query, (err, result) => {
                         if(!err){
                             res.status(200).send({
@@ -41,7 +40,7 @@ module.exports = auth => (conn, req, res) => {
                     })
                 } else{
                     res.status(200).send({
-                        message: 'Este nome de usuário já existe ou este email já está sendo usado',
+                        message: 'Este nome de usuário já existe',
                         sucess: false
                     });
                 }
