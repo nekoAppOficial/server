@@ -41,6 +41,7 @@ module.exports = auth => (conn, req, res) => {
                 } else{
                     res.status(401).send({
                         message: 'Este nome de usuário já existe',
+                        error: 'Este nome de usuário já existe',
                         sucess: false
                     });
                 }
@@ -49,6 +50,7 @@ module.exports = auth => (conn, req, res) => {
     } else{
         res.status(401).send({
             message: 'Por favor, preencha todos os campos',
+            error: 'Por favor, preencha todos os campos',
             sucess: false
         });
     }
