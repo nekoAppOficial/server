@@ -13,7 +13,7 @@ module.exports = auth => (conn, req, res) => {
         const keyEncrypt = jwt.sign({
             id: encryptedPassword + `_kaway`+ username
         }, `kaway404`);
-        let query = `SELECT * FROM users WHERE username = '${username}''`;
+        let query = `SELECT * FROM users WHERE username = '${username}'`;
 
         conn.query(query, (err, result) => {
             if (err) {
