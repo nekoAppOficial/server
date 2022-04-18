@@ -35,11 +35,11 @@ module.exports = auth => (conn, req, res) => {
                                 token
                             });
                         } else{
-                            res.status(200).send(err);
+                            res.status(400).send(err);
                         }
                     })
                 } else{
-                    res.status(200).send({
+                    res.status(400).send({
                         message: 'Este nome de usuário já existe',
                         sucess: false
                     });
@@ -47,7 +47,7 @@ module.exports = auth => (conn, req, res) => {
             }
         });
     } else{
-        res.status(200).send({
+        res.status(400).send({
             message: 'Por favor, preencha todos os campos',
             sucess: false
         });
