@@ -4,9 +4,9 @@
     },
     "mysql": {
         "host": "us-cdbr-east-05.cleardb.net",
-        "username": "b248f987a537c7",
-        "password": "f964258a",
-        "db": "heroku_adc770c0fffda0e",
+        "username": "b1e70a43500b15",
+        "password": "41f5f011",
+        "db": "heroku_1ab30fb51ec2884",
         "port": 3306
     }
   }
