@@ -1,12 +1,12 @@
 {
     "server": {
-      "port" : 8000
+      "port" : 7000
     },
     "mysql": {
-        "host": "us-cdbr-east-05.cleardb.net",
-        "username": "b89fd4d42c44ca",
-        "password": "7cb9cc88",
-        "db": "heroku_2b71dd1d20ea41d",
+        "host": "localhost",
+        "username": "root",
+        "password": "",
+        "db": "nekoapp",
         "port": 3306
     }
   }
