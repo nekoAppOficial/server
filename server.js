@@ -17,6 +17,8 @@ const recuseFriend = require('./api/controllers/users/recuseFriend');
 const profile = require('./api/controllers/users/profileSocket');
 const sendMessagePrivate = require('./api/controllers/users/sendMessagePrivate');
 const changePhotoSocket = require(`./api/controllers/users/config/changePhotoSocket`)
+const changeBackgroundColorSocket = require(`./api/controllers/users/config/changeBackgroundColorSocket`)
+const changeBackgroundImageSocket =  require(`./api/controllers/users/config/changeBackgroundImageSocket`)
 
 const io = require("socket.io")(server, {
   cors: {
@@ -54,6 +56,18 @@ io.on('connection', (socket) => {
   socket.on(`change-avatar`, ({token, avatar}) => {
     if(token && avatar){
       changePhotoSocket(conn, socket, avatar, token)
+    }
+  })
+
+  socket.on(`change-backgroundColor`, ({token, colorBackground}) => {
+    if(token && colorBackground){
+      changeBackgroundColorSocket(conn, socket, colorBackground, token)
+    }
+  })
+
+  socket.on(`change-backgroundImage`, ({token, backgroundImage}) => {
+    if(token && backgroundImage){
+      changeBackgroundImageSocket(conn, socket, backgroundImage, token)
     }
   })
 

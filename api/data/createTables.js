@@ -7,6 +7,8 @@ module.exports = createTable => (conn) => {
         password VARCHAR(255), 
         photo LONGTEXT, 
         coverPhoto LONGTEXT,
+        backgroundColor LONGTEXT,
+        aboutMe VARCHAR(255),
         email VARCHAR(255),
         phone VARCHAR(255),
         verified INT,
