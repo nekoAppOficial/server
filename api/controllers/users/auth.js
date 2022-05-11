@@ -11,7 +11,7 @@ module.exports = auth => (conn, req, res) => {
         let query = `SELECT * FROM users WHERE username = '${username}'`;
         conn.query(query, (err, result) => {
             if (err) {
-                res.status(200).send({
+                res.status(401).send({
                     error: `A senha tem que ser maior que 6`
                 });
             } else {
@@ -31,20 +31,23 @@ module.exports = auth => (conn, req, res) => {
                             });
                         });
                     } else {
-                        res.status(200).send({
-                            message: 'Usuario ou senha incorretos'
+                        res.status(401).send({
+                            message: 'Usuario ou senha incorretos',
+                            error: 'Usuario ou senha incorretos'
                         });
                     }
                 } else {
-                    res.status(200).send({
-                        message: 'Usuario ou senha incorretos'
+                    res.status(401).send({
+                        message: 'Usuario ou senha incorretos',
+                        error: 'Usuario ou senha incorretos'
                     });
                 }
             }
         });
     } else{
-        res.status(200).send({
-            message: 'Por favor informe o usuario e senha'
+        res.status(401).send({
+            message: 'Por favor informe o usuario e senha',
+            error: 'Por favor informe o usuario e senha'
         });
     }
 }

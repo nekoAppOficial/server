@@ -4,7 +4,7 @@ module.exports = auth => (conn, req, res) => {
         password,
         email
     } = req.body;
-    if(password && username && email){
+    if(password && username){
         const jwt = require('jsonwebtoken');
         const encryptPassword = require('encrypt-password')
         const encryptedPassword = encryptPassword(password+`_kaway123`, 'mysignaturekaway')
@@ -13,11 +13,11 @@ module.exports = auth => (conn, req, res) => {
         const keyEncrypt = jwt.sign({
             id: encryptedPassword + `_kaway`+ username
         }, `kaway404`);
-        let query = `SELECT * FROM users WHERE username = '${username}' OR email = '${email}'`;
+        let query = `SELECT * FROM users WHERE username = '${username}'`;
 
         conn.query(query, (err, result) => {
             if (err) {
-                res.status(500).send(err);
+                res.status(401).send(err);
             } else {
                 if(result.length == 0){
                     const token = jwt.sign({
@@ -25,9 +25,8 @@ module.exports = auth => (conn, req, res) => {
                     }, `kaway404`);
                     query = `INSERT INTO users (
                         username, password,
-                        verified, keyEncrypt,
-                        email, token
-                        ) VALUES ('${username}','${encryptedPassword}', 0, '${keyEncrypt}', '${email}', '${token}')`;
+                        verified, keyEncrypt, token
+                        ) VALUES ('${username}','${encryptedPassword}', 0, '${keyEncrypt}', '${token}')`;
                     conn.query(query, (err, result) => {
                         if(!err){
                             res.status(200).send({
@@ -36,20 +35,22 @@ module.exports = auth => (conn, req, res) => {
                                 token
                             });
                         } else{
-                            res.status(200).send(err);
+                            res.status(401).send(err);
                         }
                     })
                 } else{
-                    res.status(200).send({
-                        message: 'Este nome de usuário já existe ou este email já está sendo usado',
+                    res.status(401).send({
+                        message: 'Este nome de usuário já existe',
+                        error: 'Este nome de usuário já existe',
                         sucess: false
                     });
                 }
             }
         });
     } else{
-        res.status(200).send({
+        res.status(401).send({
             message: 'Por favor, preencha todos os campos',
+            error: 'Por favor, preencha todos os campos',
             sucess: false
         });
     }
