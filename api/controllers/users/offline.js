@@ -17,6 +17,21 @@ module.exports = (conn, socket)  => {
                         //Send to all users
                         socket.broadcast.to(user.keyEncrypt).emit('userOffline', user);
                     });
+                    query = `SELECT * FROM friends inner join users on friends.userId = users.id or friends.friendId = users.id WHERE friends.userId = ${user.id} and users.username != '${user.username}' OR friends.friendId = ${user.id}
+                        and users.username != '${user.username}'`;
+                    conn.query(query, (err, resultE) => {
+                        if(!err){
+                            resultE.forEach((userB, index) => {
+                                resultE[index].token = undefined
+                                resultE[index].password = undefined
+                                resultE[index].socketid = undefined
+                                resultE[index].email = undefined
+                                socket.broadcast.to(userB.keyEncrypt).emit('offlineB', user);
+                            })
+                        } else{
+                            // console.log(err)
+                        }
+                    })
                 });
             } else {
                 console.log(`Invalid socket`)
