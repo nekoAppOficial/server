@@ -18,7 +18,7 @@ module.exports = (conn, socket, image, token) => {
                             conn.query(query, (err, resultFriends) => {
                                 if(!err){
                                     resultFriends.forEach(friend => {
-                                        socket.broadcast.to(friend.keyEncrypt).emit('refreshFriends', true);
+                                        socket.broadcast.to(friend.keyEncrypt).emit('refreshFriends', user);
                                     });
                                     socket.emit('refreshFriends', true);
                                     socket.emit('refreshMe', true);
