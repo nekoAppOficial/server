@@ -19,7 +19,6 @@ module.exports = (conn, socket, token) => {
                         conn.query(query, (err, resultE) => {
                             if(!err){
                                 resultE.forEach((userB, index) => {
-                                    console.log(userB)
                                     resultE[index].token = undefined
                                     resultE[index].password = undefined
                                     resultE[index].socketid = undefined
