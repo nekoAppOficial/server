@@ -12,13 +12,14 @@ module.exports = (conn, socket, avatar, token) => {
                         query = `UPDATE users SET photo = '${avatar}' WHERE id = ${user.id}`;
                         user.password = undefined;
                         user.token = undefined
+                        user.photo = avatar
                         conn.query(query, (err, result) => {
                             query = `SELECT * FROM friends inner join users on friends.userId = users.id or friends.friendId = users.id WHERE friends.userId = ${user.id} and users.username != '${user.username}' OR friends.friendId = ${user.id}
                         and users.username != '${user.username}'`;
                             conn.query(query, (err, resultFriends) => {
                                 if(!err){
                                     resultFriends.forEach(friend => {
-                                        socket.broadcast.to(friend.keyEncrypt).emit('refreshFriends', true);
+                                        socket.broadcast.to(friend.keyEncrypt).emit('refreshFriends', user);
                                     });
                                     socket.emit('refreshFriends', true);
                                     socket.emit('refreshMe', true);
