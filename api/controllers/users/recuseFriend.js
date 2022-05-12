@@ -32,9 +32,9 @@ module.exports = (conn, socket, token, userID)  => {
                                                 userID = ${user.id} AND friendID = ${userPara.id})
                                                 OR (userID = ${userPara.id} AND friendID = ${user.id})`
                                             conn.query(query, (err, result) => {
-                                                socket.emit('refreshFriends', true);
-                                                socket.broadcast.to(user.keyEncrypt).emit('refreshFriends', true);
-                                                socket.broadcast.to(userPara.keyEncrypt).emit('refreshFriends', true);
+                                                socket.broadcast.to(user.keyEncrypt).emit('recuseFriend', userPara);
+                                                socket.broadcast.to(userPara.keyEncrypt).emit('recuseFriend', user);
+                                                socket.emit('recuseFriend', userPara);
                                             })
                                         }
                                     }
