@@ -39,9 +39,13 @@ module.exports = (conn, socket, token, userID)  => {
                                                  VALUES (${userPara.id}, ${user.id}, "pending", ${user.id})`;
                                                 conn.query(query, (err, result) => {
                                                     //Send to user
-                                                    socket.broadcast.to(user.keyEncrypt).emit('refreshFriends', true);
-                                                    socket.broadcast.to(userPara.keyEncrypt).emit('refreshFriends', true);
-                                                    socket.emit('refreshFriends', true);
+                                                    userPara.statusAmizade = `pending`
+                                                    user.statusAmizade = `pending`
+                                                    user.createdBy = user.id
+                                                    userPara.createdBy = user.id
+                                                    socket.broadcast.to(user.keyEncrypt).emit('addFriend', userPara);
+                                                    socket.broadcast.to(userPara.keyEncrypt).emit('addFriend', user);
+                                                    socket.emit('addFriend', userPara);
                                                     socket.emit(`notifications`, {
                                                         sucess: true,
                                                         message: `Pedido de amizade para ${userPara.username}  enviado com sucesso!`,

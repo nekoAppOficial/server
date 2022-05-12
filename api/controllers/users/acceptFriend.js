@@ -31,9 +31,13 @@ module.exports = (conn, socket, token, userID)  => {
                                             query = `UPDATE friends SET statusAmizade = 'accept' WHERE (userID = ${user.id} AND friendID = ${userPara.id})
                                             OR (userID = ${userPara.id} AND friendID = ${user.id})`;
                                             conn.query(query, (err, result) => {
-                                                socket.broadcast.to(user.keyEncrypt).emit('refreshFriends', true);
-                                                socket.broadcast.to(userPara.keyEncrypt).emit('refreshFriends', true);
-                                                socket.emit('refreshFriends', true);
+                                                userPara.statusAmizade = `accept`
+                                                user.statusAmizade = `accept`
+                                                user.createdBy = user.id
+                                                userPara.createdBy = user.id
+                                                socket.broadcast.to(user.keyEncrypt).emit('acceptFriend', userPara);
+                                                socket.broadcast.to(userPara.keyEncrypt).emit('acceptFriend', user);
+                                                socket.emit('acceptFriend', userPara);
                                             })
                                         }
                                     }
